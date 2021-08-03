@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 import {
   ApolloClient,
   ApolloProvider,
@@ -25,19 +25,42 @@ type MetricsDataResponse = {
   getMetrics: string[];
 };
 
+type SelectedMetrics = {
+  [metric: string]: boolean;
+};
+
 const Metrics: FC = () => {
   const { loading, error, data } = useQuery<MetricsDataResponse>(query, {});
+  const [selectedMetrics, setSelectedMetrics] = useState<SelectedMetrics>({});
+
+  const toggleSelectedMetric = (metric: string) => {
+    if (selectedMetrics[metric]) {
+      setSelectedMetrics({ ...selectedMetrics, [metric]: false });
+    } else {
+      setSelectedMetrics({ ...selectedMetrics, [metric]: true });
+    }
+  };
 
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
   if (!data) return <Chip label="Metrics not found" />;
 
   const metrics = data.getMetrics;
+  console.log(selectedMetrics);
 
   return (
-    <ul>
-      { metrics.map(metric => <li>{metric}</li>)}
-    </ul>
+    <>
+      { metrics.map(m => (
+        <button
+          type="button"
+          key={m}
+          onClick={() => toggleSelectedMetric(m)}
+          style={{ backgroundColor: selectedMetrics[m] ? 'yellow' : 'white' }}
+        >
+          {m}
+        </button>
+      )) }
+    </>
   );
 };
 
