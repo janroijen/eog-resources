@@ -7,6 +7,8 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import NowWhat from './components/NowWhat';
 
+import Metrics from './Features/Metrics';
+
 const theme = createTheme({
   palette: {
     primary: {
@@ -27,6 +29,7 @@ const App = () => (
     <Wrapper>
       <Header />
       <NowWhat />
+      <Metrics />
       <ToastContainer />
     </Wrapper>
   </MuiThemeProvider>
