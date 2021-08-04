@@ -25,10 +25,6 @@ type MetricsDataResponse = {
   getMetrics: string[];
 };
 
-// export type SelectedMetrics = {
-//   [metric: string]: boolean;
-// };
-
 export type SelectedMetrics = string[];
 
 type Props = {
@@ -43,7 +39,7 @@ const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
     if (selectedMetrics.includes(metric)) {
       setSelectedMetrics(selectedMetrics.filter(m => m !== metric));
     } else {
-      setSelectedMetrics([...selectedMetrics, metric]);
+      setSelectedMetrics([...selectedMetrics, metric].sort());
     }
   };
 

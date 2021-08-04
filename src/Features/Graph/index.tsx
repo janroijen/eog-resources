@@ -1,4 +1,7 @@
-import React, { useRef } from 'react';
+import React, { useState, useEffect } from 'react';
+import Plot from 'react-plotly.js';
+import { Data } from 'plotly.js';
+
 import {
   ApolloClient,
   ApolloProvider,
@@ -47,36 +50,59 @@ type GraphDataResponse = {
 
 export type GraphProps = {
   metrics: string[];
-  lagMinutes: number;
+  lagMinutes?: number;
+  secondsBetweenUpdates?: number;
 };
 
-const Graph = ({ metrics, lagMinutes = 30 }: GraphProps) => {
-  const startTime = useRef(Date.now() - lagMinutes * 60 * 1000);
+const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphProps) => {
+  const [startTime, setStartTime] = useState(Date.now() - lagMinutes * 60 * 1000);
+  const [graphData, setGraphData] = useState<Data[]>([]);
 
-  const metricsDef = metrics.map(m => ({ metricName: m, after: startTime.current }));
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStartTime(Date.now() - lagMinutes * 60 * 1000);
+    }, 1000 * secondsBetweenUpdates);
+
+    return () => window.clearInterval(interval);
+  }, [setStartTime]);
+
+  const metricsDef = metrics.map(m => ({ metricName: m, after: startTime }));
 
   const { loading, error, data } = useQuery<GraphDataResponse>(query, {
     variables: { metrics: metricsDef },
   });
 
-  if (loading) return <LinearProgress />;
-  if (error) return <Typography color="error">{error}</Typography>;
-  if (!data) return <Chip label="Metrics not found" />;
+  useEffect(() => {
+    if (!data) return;
 
-  const graphData = data.getMultipleMeasurements.map(lineData => ({
-    metric: lineData.metric,
-    unit: lineData.measurements[0].unit,
-    at: lineData.measurements.map(m => m.at),
-    value: lineData.measurements.map(m => m.value),
-  }));
+    const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => ({
+      name: `${lineData.metric} [${lineData.measurements[0].unit}]`,
+      x: lineData.measurements.map(m => m.at),
+      y: lineData.measurements.map(m => m.value),
+      type: 'scatter',
+      mode: 'lines',
+    }));
+    setGraphData(newGraphData);
+  }, [data]);
+
+  if (loading && graphData.length === 0) return <LinearProgress />;
+  if (error) return <Typography color="error">{error}</Typography>;
+  if (graphData.length === 0) return <Chip label="Metrics not found" />;
 
   return (
-    <p>{ JSON.stringify(graphData) }</p>
+    <Plot
+      data={graphData}
+      layout={{ width: 1200, height: 900, title: `Last ${lagMinutes} minutes` }}
+    />
   );
 };
 
-export default ({ metrics, lagMinutes = 30 }: GraphProps) => (
+export default ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphProps) => (
   <ApolloProvider client={client}>
-    <Graph metrics={metrics} lagMinutes={lagMinutes} />
+    <Graph
+      metrics={metrics}
+      lagMinutes={lagMinutes}
+      secondsBetweenUpdates={secondsBetweenUpdates}
+    />
   </ApolloProvider>
 );
