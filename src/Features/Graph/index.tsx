@@ -101,6 +101,8 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
       layout={{
         width: 1200,
         height: 800,
+        autosize: false,
+        legend: { orientation: 'h' },
         title: `Last ${lagMinutes} minutes`,
         xaxis: {
           title: { text: 'Minutes' },
