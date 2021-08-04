@@ -75,13 +75,18 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   useEffect(() => {
     if (!data) return;
 
-    const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => ({
-      name: `${lineData.metric} [${lineData.measurements[0].unit}]`,
-      x: lineData.measurements.map(m => m.at),
-      y: lineData.measurements.map(m => m.value),
-      type: 'scatter',
-      mode: 'lines',
-    }));
+    const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => {
+      const { measurements } = lineData;
+      const lastValue = measurements[measurements.length - 1].value;
+
+      return {
+        name: `${lineData.metric} (${lastValue} ${measurements[0].unit})`,
+        x: measurements.map(m => m.at),
+        y: measurements.map(m => m.value),
+        type: 'scatter',
+        mode: 'lines',
+      };
+    });
     setGraphData(newGraphData);
   }, [data]);
 
