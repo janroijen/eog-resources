@@ -46,7 +46,6 @@ const Metrics: FC = () => {
   if (!data) return <Chip label="Metrics not found" />;
 
   const metrics = data.getMetrics;
-  console.log(selectedMetrics);
 
   return (
     <>
