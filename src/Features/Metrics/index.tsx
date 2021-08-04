@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react';
+import React from 'react';
 import {
   ApolloClient,
   ApolloProvider,
@@ -25,19 +25,25 @@ type MetricsDataResponse = {
   getMetrics: string[];
 };
 
-type SelectedMetrics = {
-  [metric: string]: boolean;
+// export type SelectedMetrics = {
+//   [metric: string]: boolean;
+// };
+
+export type SelectedMetrics = string[];
+
+type Props = {
+  selectedMetrics: SelectedMetrics;
+  setSelectedMetrics: (metrics: SelectedMetrics) => void;
 };
 
-const Metrics: FC = () => {
+const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
   const { loading, error, data } = useQuery<MetricsDataResponse>(query, {});
-  const [selectedMetrics, setSelectedMetrics] = useState<SelectedMetrics>({});
 
   const toggleSelectedMetric = (metric: string) => {
-    if (selectedMetrics[metric]) {
-      setSelectedMetrics({ ...selectedMetrics, [metric]: false });
+    if (selectedMetrics.includes(metric)) {
+      setSelectedMetrics(selectedMetrics.filter(m => m !== metric));
     } else {
-      setSelectedMetrics({ ...selectedMetrics, [metric]: true });
+      setSelectedMetrics([...selectedMetrics, metric]);
     }
   };
 
@@ -54,7 +60,7 @@ const Metrics: FC = () => {
           type="button"
           key={m}
           onClick={() => toggleSelectedMetric(m)}
-          style={{ backgroundColor: selectedMetrics[m] ? 'yellow' : 'white' }}
+          style={{ backgroundColor: selectedMetrics.includes(m) ? 'yellow' : 'white' }}
         >
           {m}
         </button>
@@ -63,8 +69,8 @@ const Metrics: FC = () => {
   );
 };
 
-export default () => (
+export default ({ selectedMetrics, setSelectedMetrics }: Props) => (
   <ApolloProvider client={client}>
-    <Metrics />
+    <Metrics selectedMetrics={selectedMetrics} setSelectedMetrics={setSelectedMetrics} />
   </ApolloProvider>
 );

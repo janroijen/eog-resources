@@ -45,12 +45,12 @@ type GraphDataResponse = {
   getMultipleMeasurements: MultipleMeasurements[],
 };
 
-type Props = {
+export type GraphProps = {
   metrics: string[];
   lagMinutes: number;
 };
 
-const Graph = ({ metrics, lagMinutes = 30 }: Props) => {
+const Graph = ({ metrics, lagMinutes = 30 }: GraphProps) => {
   const startTime = useRef(Date.now() - lagMinutes * 60 * 1000);
 
   const metricsDef = metrics.map(m => ({ metricName: m, after: startTime.current }));
@@ -65,6 +65,7 @@ const Graph = ({ metrics, lagMinutes = 30 }: Props) => {
 
   const graphData = data.getMultipleMeasurements.map(lineData => ({
     metric: lineData.metric,
+    unit: lineData.measurements[0].unit,
     at: lineData.measurements.map(m => m.at),
     value: lineData.measurements.map(m => m.value),
   }));
@@ -74,7 +75,7 @@ const Graph = ({ metrics, lagMinutes = 30 }: Props) => {
   );
 };
 
-export default ({ metrics, lagMinutes = 30 }: Props) => (
+export default ({ metrics, lagMinutes = 30 }: GraphProps) => (
   <ApolloProvider client={client}>
     <Graph metrics={metrics} lagMinutes={lagMinutes} />
   </ApolloProvider>

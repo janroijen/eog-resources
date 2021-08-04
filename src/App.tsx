@@ -7,8 +7,7 @@ import Header from './components/Header';
 import Wrapper from './components/Wrapper';
 import NowWhat from './components/NowWhat';
 
-import Metrics from './Features/Metrics';
-import Graph from './Features/Graph';
+import GraphWithMetricControl from './Features/GraphWithMetricControl';
 
 const theme = createTheme({
   palette: {
@@ -30,8 +29,7 @@ const App = () => (
     <Wrapper>
       <Header />
       <NowWhat />
-      <Metrics />
-      <Graph metrics={['oilTemp', 'waterTemp']} lagMinutes={30} />
+      <GraphWithMetricControl lagMinutes={30} />
       <ToastContainer />
     </Wrapper>
   </MuiThemeProvider>
