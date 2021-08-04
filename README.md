@@ -6,7 +6,6 @@ Read more about this assessment [here](https://react.eogresources.com)
 
 #TODO
 - General clean up
-- Change x-axis to minutes
 - Add info box on graph
 - Add latest value to legend
 - Ensure graph has constant colors for each metric
@@ -18,4 +17,5 @@ Read more about this assessment [here](https://react.eogresources.com)
 - Add better error handling
 - Add error toast
 - Add to local storage
+- Fix change x-axis length (due to changing legend length)
 

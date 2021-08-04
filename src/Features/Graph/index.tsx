@@ -78,10 +78,11 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
     const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => {
       const { measurements } = lineData;
       const lastValue = measurements[measurements.length - 1].value;
+      const currentTime = Date.now();
 
       return {
         name: `${lineData.metric} (${lastValue} ${measurements[0].unit})`,
-        x: measurements.map(m => m.at),
+        x: measurements.map(m => (m.at - currentTime) / (60 * 1000)),
         y: measurements.map(m => m.value),
         type: 'scatter',
         mode: 'lines',
@@ -97,7 +98,15 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   return (
     <Plot
       data={graphData}
-      layout={{ width: 1200, height: 900, title: `Last ${lagMinutes} minutes` }}
+      layout={{
+        width: 1200,
+        height: 800,
+        title: `Last ${lagMinutes} minutes`,
+        xaxis: {
+          title: { text: 'Minutes' },
+          range: [-lagMinutes, 0],
+        },
+      }}
     />
   );
 };
