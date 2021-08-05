@@ -65,7 +65,7 @@ const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
   if (error) return <Typography color="error">{error}</Typography>;
   if (!data) return <Typography>Metrics not available</Typography>;
 
-  const metrics = data.getMetrics;
+  const metrics = [...data.getMetrics].sort();
 
   return (
     <div className={classes.root}>
