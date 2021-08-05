@@ -95,7 +95,7 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
 
   if (loading && graphData.length === 0) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (graphData.length === 0) return <Chip label="Metrics not found" />;
+  if (graphData.length === 0) return <div><Chip label="Please select a metric" /></div>;
 
   return (
     <Plot
