@@ -84,8 +84,10 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
         name: `${lineData.metric} (${lastValue} ${measurements[0].unit})`,
         x: measurements.map(m => (m.at - currentTime) / (60 * 1000)),
         y: measurements.map(m => m.value),
+        text: measurements.map(m => `<b>${lineData.metric}</b></br></br>Value: ${m.value}</br>Time: ${new Date(m.at).toLocaleTimeString('en-US')}`),
         type: 'scatter',
         mode: 'lines',
+        hoverinfo: 'text',
       };
     });
     setGraphData(newGraphData);
