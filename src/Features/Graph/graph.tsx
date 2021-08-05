@@ -10,7 +10,7 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Typography } from '@material-ui/core';
+import { Typography, Container } from '@material-ui/core';
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',
@@ -117,10 +117,12 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
 
 export default ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphProps) => (
   <ApolloProvider client={client}>
-    <Graph
-      metrics={metrics}
-      lagMinutes={lagMinutes}
-      secondsBetweenUpdates={secondsBetweenUpdates}
-    />
+    <Container>
+      <Graph
+        metrics={metrics}
+        lagMinutes={lagMinutes}
+        secondsBetweenUpdates={secondsBetweenUpdates}
+      />
+    </Container>
   </ApolloProvider>
 );
