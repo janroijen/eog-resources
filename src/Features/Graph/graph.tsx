@@ -11,7 +11,6 @@ import {
 } from '@apollo/client';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography } from '@material-ui/core';
-import Chip from '../../components/Chip';
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',
@@ -95,8 +94,8 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   }, [data]);
 
   if (loading && graphData.length === 0) return <LinearProgress />;
-  if (error) return <Typography color="error">{error}</Typography>;
-  if (graphData.length === 0) return <div><Chip label="Please select a metric" /></div>;
+  if (error) return <Typography color='error' align='center'>{error}</Typography>;
+  if (graphData.length === 0) return <Typography align='center'>Please select a metric</Typography>;
 
   return (
     <Plot

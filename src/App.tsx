@@ -27,8 +27,8 @@ const App = () => (
   <MuiThemeProvider theme={theme}>
     <CssBaseline />
     <Wrapper>
-      {/* <Header />
-      <NowWhat /> */}
+      {/* <Header /> */}
+      {/* <NowWhat /> */}
       <GraphWithMetricControl lagMinutes={30} />
       <ToastContainer />
     </Wrapper>

@@ -7,8 +7,24 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Typography } from '@material-ui/core';
-import Chip from '../../components/Chip';
+import {
+  Button,
+  ButtonGroup,
+  Typography,
+  makeStyles,
+} from '@material-ui/core';
+// import Chip from '../../components/Chip';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    '& > *': {
+      margin: theme.spacing(1),
+    },
+  },
+}));
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',
@@ -43,25 +59,28 @@ const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
     }
   };
 
+  const classes = useStyles();
+
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (!data) return <Chip label="Metrics not found" />;
+  if (!data) return <Typography>Metrics not available</Typography>;
 
   const metrics = data.getMetrics;
 
   return (
-    <>
-      { metrics.map(m => (
-        <button
-          type="button"
-          key={m}
-          onClick={() => toggleSelectedMetric(m)}
-          style={{ backgroundColor: selectedMetrics.includes(m) ? 'yellow' : 'white' }}
-        >
-          {m}
-        </button>
-      )) }
-    </>
+    <div className={classes.root}>
+      <ButtonGroup>
+        { metrics.map(m => (
+          <Button
+            key={m}
+            onClick={() => toggleSelectedMetric(m)}
+            style={{ backgroundColor: selectedMetrics.includes(m) ? '#dddddd' : 'white' }}
+          >
+            {m}
+          </Button>
+        )) }
+      </ButtonGroup>
+    </div>
   );
 };
 
