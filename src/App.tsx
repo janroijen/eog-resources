@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Wrapper from './components/Wrapper';
 // import NowWhat from './components/NowWhat';
 
-import GraphWithMetricControl from './Features/GraphWithMetricControl';
+import GraphWithMetricControl from './Features/Graph';
 
 const theme = createTheme({
   palette: {
