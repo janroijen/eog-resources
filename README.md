@@ -6,7 +6,6 @@ Read more about this assessment [here](https://react.eogresources.com)
 
 #TODO
 - General clean up
-- Ensure graph has constant colors for each metric
 - Automatically adjust size of graph to fit window
 - Make update query more efficient: do not need unit and obs we already have
 - Better styling
@@ -16,3 +15,4 @@ Read more about this assessment [here](https://react.eogresources.com)
 - Add error toast
 - Add to local storage
 - Add toggle for last 120/60/30/10/5 minutes
+- Insert thousand separator in y-axis

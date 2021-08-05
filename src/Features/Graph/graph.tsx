@@ -77,7 +77,8 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
 
     const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => {
       const { measurements } = lineData;
-      const lastValue = measurements[measurements.length - 1].value;
+      const lastValue = measurements && measurements.length > 0
+        && measurements[measurements.length - 1].value;
       const currentTime = Date.now();
 
       return {

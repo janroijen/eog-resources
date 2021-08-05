@@ -39,7 +39,7 @@ const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
     if (selectedMetrics.includes(metric)) {
       setSelectedMetrics(selectedMetrics.filter(m => m !== metric));
     } else {
-      setSelectedMetrics([...selectedMetrics, metric].sort());
+      setSelectedMetrics([...selectedMetrics, metric]);
     }
   };
 
