@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { CSSProperties } from '@material-ui/core/styles/withStyles';
 import Plot from 'react-plotly.js';
 import { Data } from 'plotly.js';
 
@@ -11,6 +12,12 @@ import {
 } from '@apollo/client';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography, Container } from '@material-ui/core';
+
+const styleContainer: CSSProperties = {
+  display: 'flex',
+  justifyContent: 'center',
+  marginTop: '40px',
+};
 
 const client = new ApolloClient({
   uri: 'https://react.eogresources.com/graphql',
@@ -99,21 +106,23 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   if (graphData.length === 0) return <Typography align='center'>Please select a metric</Typography>;
 
   return (
-    <Plot
-      data={graphData}
-      layout={{
-        width: 1200,
-        height: 800,
-        autosize: false,
-        legend: { orientation: 'h' },
-        showlegend: true,
-        title: `Last ${lagMinutes} minutes`,
-        xaxis: {
-          title: { text: 'Minutes' },
-          range: [-lagMinutes, 0],
-        },
-      }}
-    />
+    <div style={styleContainer}>
+      <Plot
+        data={graphData}
+        layout={{
+          width: 0.90 * document.documentElement.clientWidth,
+          height: 0.80 * document.documentElement.clientHeight,
+          autosize: false,
+          legend: { orientation: 'h' },
+          showlegend: true,
+          title: `Last ${lagMinutes} minutes`,
+          xaxis: {
+            title: { text: 'Minutes' },
+            range: [-lagMinutes, 0],
+          },
+        }}
+      />
+    </div>
   );
 };
 
