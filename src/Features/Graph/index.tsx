@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import Metrics, { SelectedMetrics } from './metrics';
 import Graph from './graph';
+import InfoMessage from './info-message';
 
 export type GraphProps = {
   lagMinutes?: number;
@@ -19,6 +20,7 @@ export default ({ lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphProps) => {
         lagMinutes={lagMinutes}
         secondsBetweenUpdates={secondsBetweenUpdates}
       />
+      <InfoMessage />
     </>
   );
 };

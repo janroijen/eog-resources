@@ -8,7 +8,6 @@ Read more about this assessment [here](https://react.eogresources.com)
 - General clean up
 - Automatically adjust size of graph to fit window
 - Make update query more efficient: do not need unit and obs we already have
-- Better styling
 - Add comments
 - Add test cases
 - Add better error handling
