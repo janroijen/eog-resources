@@ -13,7 +13,7 @@ import {
   Typography,
   makeStyles,
 } from '@material-ui/core';
-// import Chip from '../../components/Chip';
+import { toast } from 'react-toastify';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,7 +63,10 @@ const Metrics = ({ selectedMetrics, setSelectedMetrics }: Props) => {
 
   if (loading) return <LinearProgress />;
   if (error) return <Typography color="error">{error}</Typography>;
-  if (!data) return <Typography>Metrics not available</Typography>;
+  if (!data) {
+    toast.error('No metrics available');
+    return null;
+  }
 
   const metrics = [...data.getMetrics].sort();
 

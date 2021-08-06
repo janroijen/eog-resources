@@ -12,6 +12,7 @@ import {
 } from '@apollo/client';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import { Typography, Container } from '@material-ui/core';
+import { toast } from 'react-toastify';
 
 const styleContainer: CSSProperties = {
   display: 'flex',
@@ -102,7 +103,10 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   }, [data]);
 
   if (loading && graphData.length === 0) return <LinearProgress />;
-  if (error) return <Typography color='error' align='center'>{error}</Typography>;
+  if (error) {
+    toast.error(`Error: ${error}`);
+    return null;
+  }
   if (graphData.length === 0) return <Typography align='center'>Please select a metric</Typography>;
 
   return (
