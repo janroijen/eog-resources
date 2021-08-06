@@ -72,6 +72,7 @@ const Graph = ({ metrics, lagMinutes = 30, secondsBetweenUpdates = 1 }: GraphPro
   });
 
   useEffect(() => {
+    // Only update graph after data has been received (to avoid flickering graph)
     if (!data) return;
 
     const newGraphData: Data[] = data.getMultipleMeasurements.map(lineData => {

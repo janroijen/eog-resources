@@ -7,7 +7,7 @@ const styleContainer: CSSProperties = {
 };
 
 const styleMessage: CSSProperties = {
-  backgroundColor: '#222222',
+  backgroundColor: '#444444',
   color: '#eeeeee',
   fontWeight: 'bold',
   textAlign: 'center',
